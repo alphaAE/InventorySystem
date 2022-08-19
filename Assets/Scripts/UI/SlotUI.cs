@@ -38,6 +38,14 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     public Item.ItemType GetItemType() {
         return _item.Item.Type;
     }
+    
+    /// <summary>
+    /// 得到当前物品槽存放的物品ID
+    /// </summary>
+    /// <returns></returns>
+    public int GetItemId() {
+        return _item.Item.ID;
+    }
 
     public bool IsFilled() {
         return _item.Amount >= _item.Item.MaxCapacity;
