@@ -21,7 +21,12 @@ public class ItemUI : MonoBehaviour {
         Amount = amount;
         // update ui
         _itemImg.sprite = Resources.Load<Sprite>(item.Sprite);
-        _amountText.text = Amount.ToString();
+        if (Amount > 1) {
+            _amountText.text = Amount.ToString();
+        }
+        else {
+            _amountText.text = "";
+        }
     }
 
     public void AddAmount(int amount = 1) {

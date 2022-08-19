@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class Test : MonoBehaviour {
     private void Update() {
         if (Input.GetKeyDown(KeyCode.G)) {
-            int id = Random.Range(1, 3);
+            int id = Random.Range(1, 20);
             Knapsack.Instance.StoreItem(id);
         }
     }

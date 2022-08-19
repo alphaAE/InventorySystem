@@ -30,7 +30,6 @@ public class InventoryManager : MonoBehaviour {
 
             if (item is not null) {
                 _items.Add(item);
-                Debug.Log(item.ToString());
             }
         }
     }

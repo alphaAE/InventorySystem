@@ -38,7 +38,7 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     public Item.ItemType GetItemType() {
         return _item.Item.Type;
     }
-    
+
     /// <summary>
     /// 得到当前物品槽存放的物品ID
     /// </summary>
@@ -54,7 +54,6 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     public void OnPointerEnter(PointerEventData eventData) {
         if (!_item) return;
         ToolTipUI.Instance.Show(_item.Item.GetToolTipText());
-        Debug.Log(_item.Item.GetToolTipText());
     }
 
     public void OnPointerExit(PointerEventData eventData) {

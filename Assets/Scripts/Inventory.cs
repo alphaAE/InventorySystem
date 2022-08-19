@@ -11,7 +11,6 @@ public class Inventory : MonoBehaviour {
     }
 
     public bool StoreItem(int id) {
-        Debug.Log(id);
         Item item = InventoryManager.Instance.GetItemById(id);
         return StoreItem(item);
     }
