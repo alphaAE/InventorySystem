@@ -27,6 +27,9 @@ public class Item {
         Sprite = sprite;
     }
 
+    public virtual string GetToolTipText() {
+        return Name;
+    }
 
     /// <summary>
     /// 物品类型

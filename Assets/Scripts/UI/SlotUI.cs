@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class SlotUI : MonoBehaviour {
+public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     private VarsManager _vars;
     private ItemUI _item;
+    private IPointerEnterHandler _pointerEnterHandlerImplementation;
 
     private void Awake() {
         _vars = VarsManager.GetVarsManager();
@@ -39,5 +41,15 @@ public class SlotUI : MonoBehaviour {
 
     public bool IsFilled() {
         return _item.Amount >= _item.Item.MaxCapacity;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData) {
+        if (!_item) return;
+        ToolTipUI.Instance.Show(_item.Item.GetToolTipText());
+        Debug.Log(_item.Item.GetToolTipText());
+    }
+
+    public void OnPointerExit(PointerEventData eventData) {
+        ToolTipUI.Instance.Hide();
     }
 }
