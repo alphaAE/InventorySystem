@@ -29,8 +29,18 @@ public class InventoryManager : MonoBehaviour {
             Item item = (Item)jToken.ToObject(type);
 
             if (item is not null) {
+                _items.Add(item);
                 Debug.Log(item.ToString());
             }
         }
+    }
+
+    public Item GetItemById(int id) {
+        foreach (var item in _items) {
+            if (item.ID == id)
+                return item;
+        }
+
+        return null;
     }
 }
