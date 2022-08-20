@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,8 +28,27 @@ public class Item {
         Sprite = sprite;
     }
 
+    private string GetTextColorByQuality() {
+        switch (Quality) {
+            case ItemQuality.Common:
+                return "white";
+            case ItemQuality.Rare:
+                return "navy";
+            case ItemQuality.Epic:
+                return "magenta";
+            case ItemQuality.Legendary:
+                return "orange";
+            case ItemQuality.Artifact:
+                return "red";
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
     public virtual string GetToolTipText() {
-        return Name;
+        string text =
+            $"<color={GetTextColorByQuality()}>{Name}</color>\n<color=green>购买价格: {BuyPrice}\n出售价格: {SellPrice}</color>\n{Description}";
+        return text;
     }
 
     /// <summary>

@@ -14,7 +14,7 @@ public class ToolTipUI : MonoBehaviour {
 
     private float _smoothing = .5f;
     private bool _isMoveing;
-    private Vector2 _toolTipPositionOffset = new(11, -2);
+    private Vector2 _toolTipPositionOffset = new(14, -10);
 
     private void Awake() {
         Instance = this;

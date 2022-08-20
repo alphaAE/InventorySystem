@@ -1,3 +1,5 @@
+using System;
+
 public class Weapon : Item {
     public int Damage { get; set; }
 
@@ -8,6 +10,28 @@ public class Weapon : Item {
         description, maxCapacity, buyPrice, sellPrice, sprite) {
         Damage = damage;
         this.wpType = wpType;
+    }
+
+    public override string GetToolTipText() {
+        var text = base.GetToolTipText();
+        if (Damage > 0) {
+            text += $"<color=yellow>\n伤害: {Damage}</color>";
+        }
+
+        text += $"<color=blue>\n类型: {GetWeaponTypeText()}</color>";
+
+        return text;
+    }
+
+    private string GetWeaponTypeText() {
+        switch (wpType) {
+            case WeaponType.MainHand:
+                return "主手";
+            case WeaponType.OffHand:
+                return "副手";
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     public enum WeaponType {

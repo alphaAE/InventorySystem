@@ -8,4 +8,17 @@ public class Consumable : Item {
         Hp = hp;
         Mp = mp;
     }
+
+    public override string GetToolTipText() {
+        var text = base.GetToolTipText();
+        if (Hp > 0) {
+            text += $"<color=yellow>\n恢复生命: {Hp}</color>";
+        }
+
+        if (Mp > 0) {
+            text += $"<color=yellow>\n恢复魔力: {Mp}</color>";
+        }
+
+        return text;
+    }
 }
