@@ -16,6 +16,7 @@ public class PickedItem : MonoBehaviour {
     private void Awake() {
         Instance = this;
         ItemUI = GetComponent<ItemUI>();
+        ItemUI.IsPlayAnim = false;
         ItemUI.Hide();
 
         _canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
