@@ -104,9 +104,8 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             return;
         }
 
-        // 左键 || 右键 选中物品
-        if (eventData.button == PointerEventData.InputButton.Left ||
-            eventData.button == PointerEventData.InputButton.Right) {
+        // 左键 选中物品
+        if (eventData.button == PointerEventData.InputButton.Left) {
             // PickedItem为空 && 当前格不为空 则选中
             // Debug.Log($"已经选中物品：{PickedItem.Instance.HasItem} \n 格子中有物品：{(bool)_itemUI}");
             if (!PickedItem.Instance.HasItem && _itemUI) {
@@ -115,6 +114,25 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
                 ToolTipUI.Instance.Hide();
                 PickedItem.Instance.AddItem(_itemUI);
                 DestroyImmediate(_itemUI.gameObject);
+            }
+        }
+
+        // 右键 选中物品一半
+        if (eventData.button == PointerEventData.InputButton.Right) {
+            if (!PickedItem.Instance.HasItem && _itemUI) {
+                // 屏蔽此次抬起事件
+                _isPickupTime = true;
+                ToolTipUI.Instance.Hide();
+                // 个数大于1 则拿起一半
+                if (_itemUI.Amount > 1) {
+                    int half = _itemUI.Amount / 2;
+                    PickedItem.Instance.AddItem(_itemUI.Item, half);
+                    _itemUI.SetAmount(_itemUI.Amount - half);
+                }
+                else {
+                    PickedItem.Instance.AddItem(_itemUI);
+                    DestroyImmediate(_itemUI.gameObject);
+                }
             }
         }
     }
