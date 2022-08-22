@@ -6,14 +6,13 @@ using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
 public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler {
-    private VarsManager _vars;
-    private ItemUI _itemUI;
-    private IPointerEnterHandler _pointerEnterHandlerImplementation;
+    protected VarsManager Vars;
+    protected ItemUI ItemUI;
 
-    private bool _isPickupTime;
+    protected bool IsPickupTime;
 
     private void Awake() {
-        _vars = VarsManager.GetVarsManager();
+        Vars = VarsManager.GetVarsManager();
     }
 
     /// <summary>
@@ -24,14 +23,14 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     /// <param name="item"></param>
     /// <param name="amount"></param>
     public void StoreItem(Item item, int amount = 1) {
-        if (!(bool)_itemUI) {
-            GameObject itemObj = Instantiate(_vars.itemUIPre, transform);
+        if (!(bool)ItemUI) {
+            GameObject itemObj = Instantiate(Vars.itemUIPre, transform);
             itemObj.transform.localPosition = Vector3.zero;
-            _itemUI = itemObj.GetComponent<ItemUI>();
-            _itemUI.SetItem(item, amount);
+            ItemUI = itemObj.GetComponent<ItemUI>();
+            ItemUI.SetItem(item, amount);
         }
         else {
-            _itemUI.AddAmount();
+            ItemUI.AddAmount();
         }
     }
 
@@ -40,7 +39,7 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     /// </summary>
     /// <returns></returns>
     public Item.ItemType GetItemType() {
-        return _itemUI.Item.Type;
+        return ItemUI.Item.Type;
     }
 
     /// <summary>
@@ -48,16 +47,16 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     /// </summary>
     /// <returns></returns>
     public int GetItemId() {
-        return _itemUI.Item.ID;
+        return ItemUI.Item.ID;
     }
 
     public bool IsFilled() {
-        return _itemUI.Amount >= _itemUI.Item.MaxCapacity;
+        return ItemUI.Amount >= ItemUI.Item.MaxCapacity;
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        if (!_itemUI || PickedItem.Instance.HasItem) return;
-        ToolTipUI.Instance.Show(_itemUI.Item.GetToolTipText());
+        if (!ItemUI || PickedItem.Instance.HasItem) return;
+        ToolTipUI.Instance.Show(ItemUI.Item.GetToolTipText());
     }
 
     public void OnPointerExit(PointerEventData eventData) {
@@ -68,29 +67,29 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     /// 鼠标按下
     /// </summary>
     /// <param name="eventData"></param>
-    public void OnPointerDown(PointerEventData eventData) {
+    public virtual void OnPointerDown(PointerEventData eventData) {
         if (eventData.button == PointerEventData.InputButton.Right && PickedItem.Instance.HasItem) {
             var popItemUI = PickedItem.Instance.PopItem();
             // 当前为空 则放下单个
-            if (!_itemUI) {
+            if (!ItemUI) {
                 StoreItem(popItemUI.Item);
                 if (popItemUI.Amount - 1 > 0) {
                     PickedItem.Instance.AddItem(popItemUI.Item, popItemUI.Amount - 1);
                 }
                 else {
-                    ToolTipUI.Instance.Show(_itemUI.Item.GetToolTipText());
+                    ToolTipUI.Instance.Show(ItemUI.Item.GetToolTipText());
                 }
             }
             // 物品相同 则尝试放下单个
-            else if (popItemUI.Item == _itemUI.Item) {
+            else if (popItemUI.Item == ItemUI.Item) {
                 // --不满
-                if (_itemUI.Amount < _itemUI.Item.MaxCapacity) {
-                    StoreItem(popItemUI.Item, _itemUI.Amount + 1);
+                if (ItemUI.Amount < ItemUI.Item.MaxCapacity) {
+                    StoreItem(popItemUI.Item, ItemUI.Amount + 1);
                     if (popItemUI.Amount - 1 > 0) {
                         PickedItem.Instance.AddItem(popItemUI.Item, popItemUI.Amount - 1);
                     }
                     else {
-                        ToolTipUI.Instance.Show(_itemUI.Item.GetToolTipText());
+                        ToolTipUI.Instance.Show(ItemUI.Item.GetToolTipText());
                     }
                 }
                 else {
@@ -108,30 +107,30 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         if (eventData.button == PointerEventData.InputButton.Left) {
             // PickedItem为空 && 当前格不为空 则选中
             // Debug.Log($"已经选中物品：{PickedItem.Instance.HasItem} \n 格子中有物品：{(bool)_itemUI}");
-            if (!PickedItem.Instance.HasItem && _itemUI) {
+            if (!PickedItem.Instance.HasItem && ItemUI) {
                 // 屏蔽此次抬起事件
-                _isPickupTime = true;
+                IsPickupTime = true;
                 ToolTipUI.Instance.Hide();
-                PickedItem.Instance.AddItem(_itemUI);
-                DestroyImmediate(_itemUI.gameObject);
+                PickedItem.Instance.AddItem(ItemUI);
+                DestroyImmediate(ItemUI.gameObject);
             }
         }
 
         // 右键 选中物品一半
         if (eventData.button == PointerEventData.InputButton.Right) {
-            if (!PickedItem.Instance.HasItem && _itemUI) {
+            if (!PickedItem.Instance.HasItem && ItemUI) {
                 // 屏蔽此次抬起事件
-                _isPickupTime = true;
+                IsPickupTime = true;
                 ToolTipUI.Instance.Hide();
                 // 个数大于1 则拿起一半
-                if (_itemUI.Amount > 1) {
-                    int half = _itemUI.Amount / 2;
-                    PickedItem.Instance.AddItem(_itemUI.Item, half);
-                    _itemUI.SetAmount(_itemUI.Amount - half);
+                if (ItemUI.Amount > 1) {
+                    int half = ItemUI.Amount / 2;
+                    PickedItem.Instance.AddItem(ItemUI.Item, half);
+                    ItemUI.SetAmount(ItemUI.Amount - half);
                 }
                 else {
-                    PickedItem.Instance.AddItem(_itemUI);
-                    DestroyImmediate(_itemUI.gameObject);
+                    PickedItem.Instance.AddItem(ItemUI);
+                    DestroyImmediate(ItemUI.gameObject);
                 }
             }
         }
@@ -141,49 +140,49 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     /// 鼠标抬起
     /// </summary>
     /// <param name="eventData"></param>
-    public void OnPointerUp(PointerEventData eventData) {
+    public virtual void OnPointerUp(PointerEventData eventData) {
         if (eventData.button == PointerEventData.InputButton.Left) {
-            if (!_isPickupTime && PickedItem.Instance.HasItem) {
+            if (!IsPickupTime && PickedItem.Instance.HasItem) {
                 var popItemUI = PickedItem.Instance.PopItem();
                 // 当前格为空则放下
-                if (!_itemUI) {
+                if (!ItemUI) {
                     StoreItem(popItemUI.Item, popItemUI.Amount);
-                    ToolTipUI.Instance.Show(_itemUI.Item.GetToolTipText());
+                    ToolTipUI.Instance.Show(ItemUI.Item.GetToolTipText());
                 }
                 // 当前格不为空
                 else {
                     // --相同物品
-                    if (popItemUI.Item == _itemUI.Item) {
+                    if (popItemUI.Item == ItemUI.Item) {
                         // 当前格能放下 放下全部
-                        if (_itemUI.Amount + popItemUI.Amount <= _itemUI.Item.MaxCapacity) {
-                            _itemUI.SetAmount(_itemUI.Amount + popItemUI.Amount);
-                            ToolTipUI.Instance.Show(_itemUI.Item.GetToolTipText());
+                        if (ItemUI.Amount + popItemUI.Amount <= ItemUI.Item.MaxCapacity) {
+                            ItemUI.SetAmount(ItemUI.Amount + popItemUI.Amount);
+                            ToolTipUI.Instance.Show(ItemUI.Item.GetToolTipText());
                         }
                         // 当前格不能放下 放下部分
                         else {
-                            int poorCapacity = _itemUI.Amount + popItemUI.Amount - _itemUI.Item.MaxCapacity;
-                            _itemUI.SetAmount(_itemUI.Item.MaxCapacity);
+                            int poorCapacity = ItemUI.Amount + popItemUI.Amount - ItemUI.Item.MaxCapacity;
+                            ItemUI.SetAmount(ItemUI.Item.MaxCapacity);
                             PickedItem.Instance.AddItem(popItemUI.Item, poorCapacity);
                         }
                     }
                     // --不相同 则将与PickedItem交换
                     else {
-                        Item tempItem = _itemUI.Item;
-                        int amount = _itemUI.Amount;
+                        Item tempItem = ItemUI.Item;
+                        int amount = ItemUI.Amount;
 
-                        DestroyImmediate(_itemUI.gameObject);
+                        DestroyImmediate(ItemUI.gameObject);
                         StoreItem(popItemUI.Item, popItemUI.Amount);
                         PickedItem.Instance.AddItem(tempItem, amount);
                     }
                 }
             }
             else {
-                _isPickupTime = false;
+                IsPickupTime = false;
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Right) {
-            if (_isPickupTime) {
-                _isPickupTime = false;
+            if (IsPickupTime) {
+                IsPickupTime = false;
             }
         }
     }

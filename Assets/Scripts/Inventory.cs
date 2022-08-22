@@ -1,13 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour {
     public SlotUI[] slots;
+    private CanvasGroup _canvasGroup;
 
     private void Start() {
         slots = GetComponentsInChildren<SlotUI>();
+        _canvasGroup = GetComponent<CanvasGroup>();
     }
 
     public bool StoreItem(int id) {
@@ -67,5 +70,16 @@ public class Inventory : MonoBehaviour {
         }
 
         return null;
+    }
+
+    public void DisplaySwitch() {
+        if (_canvasGroup.alpha == 0) {
+            _canvasGroup.blocksRaycasts = true;
+            DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 1, .5f);
+        }
+        else {
+            _canvasGroup.blocksRaycasts = false;
+            DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 0, .5f);
+        }
     }
 }

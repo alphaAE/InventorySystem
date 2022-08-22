@@ -5,7 +5,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-public class Test : MonoBehaviour {
+public class Player : MonoBehaviour {
     private void Update() {
         if (Input.GetKeyDown(KeyCode.G)) {
             for (int i = 0; i < 10; i++) {
@@ -14,6 +14,13 @@ public class Test : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.T)) { }
+        if (Input.GetKeyDown(KeyCode.I)) {
+            Character.Instance.DisplaySwitch();
+            Knapsack.Instance.DisplaySwitch();
+        }
+
+        if (Input.GetKeyDown(KeyCode.O)) {
+            Chest.Instance.DisplaySwitch();
+        }
     }
 }
