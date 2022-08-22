@@ -44,7 +44,6 @@ public class PickedItem : MonoBehaviour {
     public ItemUI PopItem() {
         ItemUI.Hide();
         HasItem = false;
-
         return ItemUI;
     }
 }

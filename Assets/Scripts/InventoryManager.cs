@@ -9,8 +9,32 @@ public class InventoryManager : MonoBehaviour {
 
     private List<Item> _items = new();
 
+    private bool _inBackground;
+
+    public bool InBackground {
+        get => _inBackground;
+        set {
+            if (value && PickedItem.Instance.HasItem) {
+                ToolTipUI.Instance.Show("丢弃");
+            }
+            else if (!value) {
+                ToolTipUI.Instance.Hide();
+            }
+
+            _inBackground = value;
+        }
+    }
+
     private void Awake() {
         Instance = this;
+    }
+
+    private void Update() {
+        // 处理丢弃物品
+        if (Input.GetMouseButtonDown(0) && InBackground && PickedItem.Instance.HasItem) {
+            PickedItem.Instance.PopItem();
+            ToolTipUI.Instance.Hide();
+        }
     }
 
     private void Start() {
