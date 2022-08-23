@@ -32,6 +32,7 @@ public class Character : Inventory {
                 if (!_equipmentSlotUis[i].ItemUI) {
                     DestroyImmediate(slotUI.ItemUI.gameObject);
                     _equipmentSlotUis[i].StoreItem(equipment);
+                    _equipmentSlotUis[i].SwitchDisplayIcon();
                 }
                 // 槽位不空 则交换位置
                 else {
@@ -43,6 +44,7 @@ public class Character : Inventory {
 
                     DestroyImmediate(slotUI.ItemUI.gameObject);
                     slotUI.StoreItem(tempItem, amount);
+                    _equipmentSlotUis[i].SwitchDisplayIcon();
                 }
 
                 return true;
@@ -54,10 +56,10 @@ public class Character : Inventory {
 
     public bool QuicklyExitEquip(EquipmentSlotUI equipmentSlotUI) {
         var equipment = (Equipment)equipmentSlotUI.ItemUI.Item;
-
         // 尝试向背包放置
         if (Knapsack.Instance.StoreItem(equipment)) {
             DestroyImmediate(equipmentSlotUI.ItemUI.gameObject);
+            equipmentSlotUI.SwitchDisplayIcon();
             return true;
         }
 

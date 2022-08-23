@@ -8,13 +8,19 @@ using UnityEngine.UIElements;
 public class EquipmentSlotUI : SlotUI {
     public Equipment.EquipmentType type;
 
+    private GameObject _icon;
+
+    private void Start() {
+        _icon = transform.Find("Icon").gameObject;
+    }
+
     public override void OnPointerDown(PointerEventData eventData) {
         // 快捷装备
         if (Input.GetKey(KeyCode.LeftShift) && !PickedItem.Instance.HasItem && ItemUI) {
             Character.Instance.QuicklyExitEquip(this);
             return;
         }
-        
+
         if (eventData.button == PointerEventData.InputButton.Right && PickedItem.Instance.HasItem) {
             var popItemUI = PickedItem.Instance.PopItem();
             StorePopEquipment(popItemUI);
@@ -32,6 +38,8 @@ public class EquipmentSlotUI : SlotUI {
                 PickedItem.Instance.SetItem(ItemUI);
                 DestroyImmediate(ItemUI.gameObject);
             }
+
+            SwitchDisplayIcon();
         }
     }
 
@@ -50,6 +58,8 @@ public class EquipmentSlotUI : SlotUI {
                 IsPickupTime = false;
             }
         }
+
+        SwitchDisplayIcon();
     }
 
     /// <summary>
@@ -88,5 +98,14 @@ public class EquipmentSlotUI : SlotUI {
         // 无法放置则 回退到PickedItem
         PickedItem.Instance.SetItem(equipment);
         return false;
+    }
+
+    public void SwitchDisplayIcon() {
+        if (!ItemUI) {
+            _icon.SetActive(true);
+        }
+        else {
+            _icon.SetActive(false);
+        }
     }
 }
