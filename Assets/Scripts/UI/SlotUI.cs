@@ -54,12 +54,12 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         return ItemUI.Amount >= ItemUI.Item.MaxCapacity;
     }
 
-    public void OnPointerEnter(PointerEventData eventData) {
+    public virtual void OnPointerEnter(PointerEventData eventData) {
         if (!ItemUI || PickedItem.Instance.HasItem) return;
         ToolTipUI.Instance.Show(ItemUI.Item.GetToolTipText());
     }
 
-    public void OnPointerExit(PointerEventData eventData) {
+    public virtual void OnPointerExit(PointerEventData eventData) {
         ToolTipUI.Instance.Hide();
     }
 
@@ -71,6 +71,13 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         // 快捷装备
         if (Input.GetKey(KeyCode.LeftShift) && !PickedItem.Instance.HasItem && ItemUI) {
             Character.Instance.QuicklyEnterEquip(this);
+            return;
+        }
+
+        // 快捷卖出
+        if (Input.GetKey(KeyCode.LeftControl) && !PickedItem.Instance.HasItem && ItemUI) {
+            Shop.Instance.SellItem(ItemUI.Item, ItemUI.Amount);
+            DestroyImmediate(ItemUI.gameObject);
             return;
         }
 

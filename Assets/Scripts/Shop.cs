@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Shop : Inventory, IPointerDownHandler {
+public class Shop : Inventory, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler {
     public static Shop Instance { get; private set; }
 
     private ShopSlotUI[] _shopSlotUis;
@@ -40,6 +40,22 @@ public class Shop : Inventory, IPointerDownHandler {
         }
     }
 
+
+    public bool QuickBuyItem(Item item, int amount = 1) {
+        if (Player.Instance.ConsumeCoin(item.BuyPrice * amount)) {
+            // 背包是否能装入
+            if (Knapsack.Instance.StoreItem(item, amount)) {
+                return true;
+            }
+            else {
+                Player.Instance.EarnCoin(item.BuyPrice * amount);
+                return false;
+            }
+        }
+
+        return false;
+    }
+
     public bool BuyItem(Item item, int amount = 1) {
         if (Player.Instance.ConsumeCoin(item.BuyPrice * amount)) {
             PickedItem.Instance.SetItem(item, amount);
@@ -57,6 +73,7 @@ public class Shop : Inventory, IPointerDownHandler {
 
         if (amount > PickedItem.Instance.ItemUI.Amount) return;
         SellItem(PickedItem.Instance.ItemUI.Item, amount);
+        ToolTipUI.Instance.Hide();
         var itemUI = PickedItem.Instance.PopItem();
         var item = itemUI.Item;
         var iAmount = (itemUI.Amount -= amount);
@@ -68,5 +85,17 @@ public class Shop : Inventory, IPointerDownHandler {
 
     public void SellItem(Item item, int amount = 1) {
         Player.Instance.EarnCoin(item.SellPrice * amount);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData) {
+        if (PickedItem.Instance.HasItem) {
+            ToolTipUI.Instance.Show("卖出");
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData) {
+        if (PickedItem.Instance.HasItem) {
+            ToolTipUI.Instance.Hide();
+        }
     }
 }

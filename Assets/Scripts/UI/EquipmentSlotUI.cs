@@ -15,7 +15,7 @@ public class EquipmentSlotUI : SlotUI {
     }
 
     public override void OnPointerDown(PointerEventData eventData) {
-        // 快捷装备
+        // 快捷卸下装备
         if (Input.GetKey(KeyCode.LeftShift) && !PickedItem.Instance.HasItem && ItemUI) {
             Character.Instance.QuicklyExitEquip(this);
             return;

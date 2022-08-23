@@ -5229,7 +5229,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u9F20\u6807\u5DE6\u952E(\u672A\u9009\u4E2D) - \u8D2D\u4E70\u6700\u5927\u4E2A\u6570\n\u9F20\u6807\u53F3\u952E(\u672A\u9009\u4E2D)
-    - \u8D2D\u4E70\u5355\u4E2A\n\u6309\u4F4FShift\u70B9\u51FB - \u5FEB\u6377\u8D2D\u4E70"
+    - \u8D2D\u4E70\u5355\u4E2A\n\u6309\u4F4FCtrl\u70B9\u51FB - \u5FEB\u6377\u4E70\u5356"
 --- !u!222 &1236759348
 CanvasRenderer:
   m_ObjectHideFlags: 0
