@@ -33,12 +33,15 @@ public class PickedItem : MonoBehaviour {
         }
     }
 
-
-    public void AddItem(ItemUI itemUI) {
-        AddItem(itemUI.Item, itemUI.Amount);
+    public void SetAmount(int amount) {
+        ItemUI.Amount = amount;
     }
 
-    public void AddItem(Item item, int amount = 1) {
+    public void SetItem(ItemUI itemUI) {
+        SetItem(itemUI.Item, itemUI.Amount);
+    }
+
+    public void SetItem(Item item, int amount = 1) {
         HasItem = true;
         ItemUI.SetItem(item, amount);
         ItemUI.Show();

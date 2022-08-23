@@ -29,7 +29,7 @@ public class EquipmentSlotUI : SlotUI {
                 // 屏蔽此次抬起事件
                 IsPickupTime = true;
                 ToolTipUI.Instance.Hide();
-                PickedItem.Instance.AddItem(ItemUI);
+                PickedItem.Instance.SetItem(ItemUI);
                 DestroyImmediate(ItemUI.gameObject);
             }
         }
@@ -60,7 +60,7 @@ public class EquipmentSlotUI : SlotUI {
     private bool StorePopEquipment(ItemUI popItemUI) {
         // 筛选仅限装备
         if ((popItemUI.Item as Equipment) == null) {
-            PickedItem.Instance.AddItem(popItemUI);
+            PickedItem.Instance.SetItem(popItemUI);
             return false;
         }
 
@@ -79,14 +79,14 @@ public class EquipmentSlotUI : SlotUI {
 
                 DestroyImmediate(ItemUI.gameObject);
                 StoreItem(popItemUI.Item, popItemUI.Amount);
-                PickedItem.Instance.AddItem(tempItem, amount);
+                PickedItem.Instance.SetItem(tempItem, amount);
             }
 
             return true;
         }
 
         // 无法放置则 回退到PickedItem
-        PickedItem.Instance.AddItem(equipment);
+        PickedItem.Instance.SetItem(equipment);
         return false;
     }
 }

@@ -8,7 +8,7 @@ public class Inventory : MonoBehaviour {
     public SlotUI[] slots;
     private CanvasGroup _canvasGroup;
 
-    private void Start() {
+    protected virtual void Start() {
         slots = GetComponentsInChildren<SlotUI>();
         _canvasGroup = GetComponent<CanvasGroup>();
     }

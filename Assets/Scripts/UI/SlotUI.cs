@@ -80,7 +80,7 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             if (!ItemUI) {
                 StoreItem(popItemUI.Item);
                 if (popItemUI.Amount - 1 > 0) {
-                    PickedItem.Instance.AddItem(popItemUI.Item, popItemUI.Amount - 1);
+                    PickedItem.Instance.SetItem(popItemUI.Item, popItemUI.Amount - 1);
                 }
                 else {
                     ToolTipUI.Instance.Show(ItemUI.Item.GetToolTipText());
@@ -92,18 +92,18 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
                 if (ItemUI.Amount < ItemUI.Item.MaxCapacity) {
                     StoreItem(popItemUI.Item, ItemUI.Amount + 1);
                     if (popItemUI.Amount - 1 > 0) {
-                        PickedItem.Instance.AddItem(popItemUI.Item, popItemUI.Amount - 1);
+                        PickedItem.Instance.SetItem(popItemUI.Item, popItemUI.Amount - 1);
                     }
                     else {
                         ToolTipUI.Instance.Show(ItemUI.Item.GetToolTipText());
                     }
                 }
                 else {
-                    PickedItem.Instance.AddItem(popItemUI);
+                    PickedItem.Instance.SetItem(popItemUI);
                 }
             }
             else {
-                PickedItem.Instance.AddItem(popItemUI);
+                PickedItem.Instance.SetItem(popItemUI);
             }
 
             return;
@@ -117,7 +117,7 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
                 // 屏蔽此次抬起事件
                 IsPickupTime = true;
                 ToolTipUI.Instance.Hide();
-                PickedItem.Instance.AddItem(ItemUI);
+                PickedItem.Instance.SetItem(ItemUI);
                 DestroyImmediate(ItemUI.gameObject);
             }
         }
@@ -131,11 +131,11 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
                 // 个数大于1 则拿起一半
                 if (ItemUI.Amount > 1) {
                     int half = ItemUI.Amount / 2;
-                    PickedItem.Instance.AddItem(ItemUI.Item, half);
+                    PickedItem.Instance.SetItem(ItemUI.Item, half);
                     ItemUI.SetAmount(ItemUI.Amount - half);
                 }
                 else {
-                    PickedItem.Instance.AddItem(ItemUI);
+                    PickedItem.Instance.SetItem(ItemUI);
                     DestroyImmediate(ItemUI.gameObject);
                 }
             }
@@ -168,7 +168,7 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
                         else {
                             int poorCapacity = ItemUI.Amount + popItemUI.Amount - ItemUI.Item.MaxCapacity;
                             ItemUI.SetAmount(ItemUI.Item.MaxCapacity);
-                            PickedItem.Instance.AddItem(popItemUI.Item, poorCapacity);
+                            PickedItem.Instance.SetItem(popItemUI.Item, poorCapacity);
                         }
                     }
                     // --不相同 则将与PickedItem交换
@@ -178,7 +178,7 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
                         DestroyImmediate(ItemUI.gameObject);
                         StoreItem(popItemUI.Item, popItemUI.Amount);
-                        PickedItem.Instance.AddItem(tempItem, amount);
+                        PickedItem.Instance.SetItem(tempItem, amount);
                     }
                 }
             }

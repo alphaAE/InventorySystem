@@ -27,6 +27,7 @@ public class InventoryManager : MonoBehaviour {
 
     private void Awake() {
         Instance = this;
+        ParserItemJson();
     }
 
     private void Update() {
@@ -35,10 +36,6 @@ public class InventoryManager : MonoBehaviour {
             PickedItem.Instance.PopItem();
             ToolTipUI.Instance.Hide();
         }
-    }
-
-    private void Start() {
-        ParserItemJson();
     }
 
     private void ParserItemJson() {

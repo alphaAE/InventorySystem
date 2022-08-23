@@ -2,15 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Character : Inventory {
     public static Character Instance { get; private set; }
 
     private EquipmentSlotUI[] _equipmentSlotUis;
 
+    private Text _coinText;
+
     private void Awake() {
         Instance = this;
         _equipmentSlotUis = GetComponentsInChildren<EquipmentSlotUI>();
+        _coinText = transform.Find("Coin/Text").GetComponent<Text>();
     }
 
     public bool QuicklyEnterEquip(SlotUI slotUI) {
@@ -58,5 +62,9 @@ public class Character : Inventory {
         }
 
         return false;
+    }
+
+    public void SetCoinText(int amount) {
+        _coinText.text = amount.ToString();
     }
 }
