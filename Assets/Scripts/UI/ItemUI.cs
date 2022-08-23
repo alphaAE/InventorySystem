@@ -60,14 +60,24 @@ public class ItemUI : MonoBehaviour {
         Amount = amount;
         ScaleAnim();
         // update ui
-        AmountText.text = Amount.ToString();
+        if (Amount > 1) {
+            AmountText.text = Amount.ToString();
+        }
+        else {
+            AmountText.text = "";
+        }
     }
 
     public void AddAmount(int amount = 1) {
         Amount += amount;
         ScaleAnim();
         // update ui
-        AmountText.text = Amount.ToString();
+        if (Amount > 1) {
+            AmountText.text = Amount.ToString();
+        }
+        else {
+            AmountText.text = "";
+        }
     }
 
     public void Show() {
