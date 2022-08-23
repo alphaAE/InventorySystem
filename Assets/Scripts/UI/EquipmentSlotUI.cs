@@ -9,6 +9,12 @@ public class EquipmentSlotUI : SlotUI {
     public Equipment.EquipmentType type;
 
     public override void OnPointerDown(PointerEventData eventData) {
+        // 快捷装备
+        if (Input.GetKey(KeyCode.LeftShift) && !PickedItem.Instance.HasItem && ItemUI) {
+            Character.Instance.QuicklyExitEquip(this);
+            return;
+        }
+        
         if (eventData.button == PointerEventData.InputButton.Right && PickedItem.Instance.HasItem) {
             var popItemUI = PickedItem.Instance.PopItem();
             StorePopEquipment(popItemUI);

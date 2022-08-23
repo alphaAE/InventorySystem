@@ -13,12 +13,12 @@ public class Inventory : MonoBehaviour {
         _canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    public bool StoreItem(int id) {
+    public bool StoreItem(int id, int amount = 1) {
         Item item = InventoryManager.Instance.GetItemById(id);
         return StoreItem(item);
     }
 
-    public bool StoreItem(Item item) {
+    public bool StoreItem(Item item, int amount = 1) {
         if (item is null) {
             Debug.LogWarning("存储物品为控");
             return false;
@@ -27,7 +27,7 @@ public class Inventory : MonoBehaviour {
         if (item.MaxCapacity == 1) {
             SlotUI slot = FindEmptySlot();
             if (slot) {
-                slot.StoreItem(item);
+                slot.StoreItem(item, amount);
                 return true;
             }
 
@@ -37,13 +37,13 @@ public class Inventory : MonoBehaviour {
         else {
             SlotUI slot = FindSameIdSlot(item);
             if (slot) {
-                slot.StoreItem(item);
+                slot.StoreItem(item, amount);
                 return true;
             }
 
             slot = FindEmptySlot();
             if (slot) {
-                slot.StoreItem(item);
+                slot.StoreItem(item, amount);
                 return true;
             }
 

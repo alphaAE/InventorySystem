@@ -12,11 +12,32 @@ public class ItemUI : MonoBehaviour {
     public bool IsPlayAnim { get; set; }
 
     private Image _itemImg;
+
+    private Image ItemImg {
+        get {
+            if (!_itemImg) {
+                _itemImg = GetComponent<Image>();
+            }
+
+            return _itemImg;
+        }
+        set => _itemImg = value;
+    }
+
     private Text _amountText;
 
+    private Text AmountText {
+        get {
+            if (!_amountText) {
+                _amountText = GetComponentInChildren<Text>();
+            }
+
+            return _amountText;
+        }
+        set => _amountText = value;
+    }
+
     private void Awake() {
-        _itemImg = GetComponent<Image>();
-        _amountText = GetComponentInChildren<Text>();
         IsPlayAnim = true;
     }
 
@@ -24,12 +45,12 @@ public class ItemUI : MonoBehaviour {
         Item = item;
         Amount = amount;
         // update ui
-        _itemImg.sprite = Resources.Load<Sprite>(item.Sprite);
+        ItemImg.sprite = Resources.Load<Sprite>(item.Sprite);
         if (Amount > 1) {
-            _amountText.text = Amount.ToString();
+            AmountText.text = Amount.ToString();
         }
         else {
-            _amountText.text = "";
+            AmountText.text = "";
         }
 
         ScaleAnim();
@@ -39,14 +60,14 @@ public class ItemUI : MonoBehaviour {
         Amount = amount;
         ScaleAnim();
         // update ui
-        _amountText.text = Amount.ToString();
+        AmountText.text = Amount.ToString();
     }
 
     public void AddAmount(int amount = 1) {
         Amount += amount;
         ScaleAnim();
         // update ui
-        _amountText.text = Amount.ToString();
+        AmountText.text = Amount.ToString();
     }
 
     public void Show() {
@@ -64,12 +85,12 @@ public class ItemUI : MonoBehaviour {
     }
 
     public void Selected() {
-        _itemImg.color = new Color(_itemImg.color.r, _itemImg.color.g, _itemImg.color.b, 0.5f);
-        _amountText.color = new Color(_amountText.color.r, _amountText.color.g, _amountText.color.b, 0.5f);
+        ItemImg.color = new Color(ItemImg.color.r, ItemImg.color.g, ItemImg.color.b, 0.5f);
+        AmountText.color = new Color(AmountText.color.r, AmountText.color.g, AmountText.color.b, 0.5f);
     }
 
     public void CancelSelected() {
-        _itemImg.color = new Color(_itemImg.color.r, _itemImg.color.g, _itemImg.color.b, 1f);
-        _amountText.color = new Color(_amountText.color.r, _amountText.color.g, _amountText.color.b, 1f);
+        ItemImg.color = new Color(ItemImg.color.r, ItemImg.color.g, ItemImg.color.b, 1f);
+        AmountText.color = new Color(AmountText.color.r, AmountText.color.g, AmountText.color.b, 1f);
     }
 }

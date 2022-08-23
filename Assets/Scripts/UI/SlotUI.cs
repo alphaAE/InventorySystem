@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler {
     protected VarsManager Vars;
-    protected ItemUI ItemUI;
+    public ItemUI ItemUI { get; private set; }
 
     protected bool IsPickupTime;
 
@@ -68,6 +68,12 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     /// </summary>
     /// <param name="eventData"></param>
     public virtual void OnPointerDown(PointerEventData eventData) {
+        // 快捷装备
+        if (Input.GetKey(KeyCode.LeftShift) && !PickedItem.Instance.HasItem && ItemUI) {
+            Character.Instance.QuicklyEnterEquip(this);
+            return;
+        }
+
         if (eventData.button == PointerEventData.InputButton.Right && PickedItem.Instance.HasItem) {
             var popItemUI = PickedItem.Instance.PopItem();
             // 当前为空 则放下单个
