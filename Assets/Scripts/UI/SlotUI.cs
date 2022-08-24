@@ -30,7 +30,9 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             ItemUI.SetItem(item, amount);
         }
         else {
-            ItemUI.AddAmount();
+            var tAmount = ItemUI.Amount;
+            DestroyImmediate(ItemUI.gameObject);
+            StoreItem(item, amount + tAmount);
         }
     }
 
@@ -101,7 +103,7 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             else if (popItemUI.Item == ItemUI.Item) {
                 // --不满
                 if (ItemUI.Amount < ItemUI.Item.MaxCapacity) {
-                    StoreItem(popItemUI.Item, ItemUI.Amount + 1);
+                    StoreItem(popItemUI.Item, 1);
                     if (popItemUI.Amount - 1 > 0) {
                         PickedItem.Instance.SetItem(popItemUI.Item, popItemUI.Amount - 1);
                     }

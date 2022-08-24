@@ -15,6 +15,7 @@ public class Character : Inventory {
         Instance = this;
         _equipmentSlotUis = GetComponentsInChildren<EquipmentSlotUI>();
         _coinText = transform.Find("Coin/Text").GetComponent<Text>();
+        slots = _equipmentSlotUis;
     }
 
     public bool QuicklyEnterEquip(SlotUI slotUI) {

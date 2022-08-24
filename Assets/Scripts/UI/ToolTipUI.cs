@@ -43,13 +43,13 @@ public class ToolTipUI : MonoBehaviour {
         float xOffset = 0, yOffset = 1;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(_canvasRect, Input.mousePosition, null,
             out position);
+        // 宽度超出
         if (position.x + _canvasRect.rect.width / 2 + _rect.rect.width > _canvasRect.rect.width) {
-            print("宽度超出");
             xOffset = 1;
         }
 
+        // 高度超出
         if (Mathf.Abs(position.y - _canvasRect.rect.height / 2) + _rect.rect.height > _canvasRect.rect.height) {
-            print("高度超出");
             yOffset = 0;
         }
 

@@ -22,7 +22,7 @@ public class Composite : Inventory {
         _compositeSlotUis = GetComponentsInChildren<CompositeSlotUI>();
         _compositeOutSlot = GetComponentInChildren<CompositeOutSlotUI>();
         _formulas = InventoryManager.Instance.GetFormulas();
-        print(_formulas.Count);
+        slots = _compositeSlotUis;
     }
 
     private int _compositeAmount;

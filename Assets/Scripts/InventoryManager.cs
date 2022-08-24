@@ -32,6 +32,13 @@ public class InventoryManager : MonoBehaviour {
         ParserFormulaJson();
     }
 
+    private void Start() {
+        Knapsack.Instance.Load();
+        Chest.Instance.Load();
+        Character.Instance.Load();
+        Composite.Instance.Load();
+    }
+
     private void Update() {
         // 处理丢弃物品
         if (Input.GetMouseButtonDown(0) && InBackground && PickedItem.Instance.HasItem) {
@@ -79,5 +86,12 @@ public class InventoryManager : MonoBehaviour {
 
     public List<Formula> GetFormulas() {
         return _formulas;
+    }
+
+    private void OnApplicationQuit() {
+        Knapsack.Instance.Save();
+        Chest.Instance.Save();
+        Character.Instance.Save();
+        Composite.Instance.Save();
     }
 }

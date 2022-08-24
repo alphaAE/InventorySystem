@@ -99,4 +99,25 @@ public class Inventory : MonoBehaviour {
         _canvasGroup.blocksRaycasts = false;
         DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 0, .5f);
     }
+
+    public virtual void Save() {
+        Dictionary<int, int[]> items = new();
+        for (int i = 0; i < slots.Length; i++) {
+            if (slots[i].ItemUI) {
+                items.Add(i, new[] { slots[i].ItemUI.Item.ID, slots[i].ItemUI.Amount });
+            }
+        }
+
+        ES3.Save(gameObject.name, items);
+    }
+
+    public virtual void Load() {
+        // ES3.DeleteKey(gameObject.name);
+        if (ES3.KeyExists(gameObject.name)) {
+            Dictionary<int, int[]> items = ES3.Load<Dictionary<int, int[]>>(gameObject.name);
+            foreach (var item in items) {
+                slots[item.Key].StoreItem(item.Value[0], item.Value[1]);
+            }
+        }
+    }
 }

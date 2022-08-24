@@ -14,7 +14,12 @@ public class Player : MonoBehaviour {
     }
 
     private void Start() {
-        EarnCoin(500);
+        if (ES3.KeyExists(gameObject.name)) {
+            EarnCoin(ES3.Load<int>(gameObject.name));
+        }
+        else {
+            EarnCoin(500);
+        }
     }
 
     private void Update() {
@@ -56,5 +61,9 @@ public class Player : MonoBehaviour {
     public void EarnCoin(int amount) {
         CoinAmount += amount;
         Character.Instance.SetCoinText(CoinAmount);
+    }
+
+    private void OnApplicationQuit() {
+        ES3.Save(gameObject.name, CoinAmount);
     }
 }
