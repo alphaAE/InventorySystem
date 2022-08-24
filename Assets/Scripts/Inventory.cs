@@ -11,6 +11,9 @@ public class Inventory : MonoBehaviour {
     protected virtual void Start() {
         slots = GetComponentsInChildren<SlotUI>();
         _canvasGroup = GetComponent<CanvasGroup>();
+        if (_canvasGroup.alpha != 0) {
+            IsDisplay = true;
+        }
     }
 
     public bool StoreItem(int id, int amount = 1) {
@@ -72,14 +75,28 @@ public class Inventory : MonoBehaviour {
         return null;
     }
 
+
     public void DisplaySwitch() {
-        if (_canvasGroup.alpha == 0) {
-            _canvasGroup.blocksRaycasts = true;
-            DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 1, .5f);
+        if (!IsDisplay) {
+            Show();
+            IsDisplay = true;
         }
         else {
-            _canvasGroup.blocksRaycasts = false;
-            DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 0, .5f);
+            Hide();
+            IsDisplay = false;
         }
+    }
+
+    public bool IsDisplay { get; set; }
+
+
+    public void Show() {
+        _canvasGroup.blocksRaycasts = true;
+        DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 1, .5f);
+    }
+
+    public void Hide() {
+        _canvasGroup.blocksRaycasts = false;
+        DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 0, .5f);
     }
 }

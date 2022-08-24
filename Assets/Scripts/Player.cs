@@ -19,19 +19,22 @@ public class Player : MonoBehaviour {
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.G)) {
-            for (int i = 0; i < 10; i++) {
-                int id = Random.Range(1, 20);
-                Knapsack.Instance.StoreItem(id);
-            }
+            BtnRandomItem.Instance.OnButtonClick();
         }
 
         if (Input.GetKeyDown(KeyCode.I)) {
             Character.Instance.DisplaySwitch();
             Knapsack.Instance.DisplaySwitch();
+            BtnRandomItem.Instance.DisplaySwitch();
         }
 
         if (Input.GetKeyDown(KeyCode.O)) {
             Chest.Instance.DisplaySwitch();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P)) {
+            Shop.Instance.DisplaySwitch();
+            Composite.Instance.DisplaySwitch();
         }
     }
 

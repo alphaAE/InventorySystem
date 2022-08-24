@@ -9,7 +9,7 @@ public class Shop : Inventory, IPointerDownHandler, IPointerEnterHandler, IPoint
 
     private ShopSlotUI[] _shopSlotUis;
 
-    private int[] _itemIds = { 1, 2, 10, 14, 17, 5, 6, 7, 8, };
+    private int[] _itemIds = { 1, 2, 10, 14, 17, 5, 7, 20, 21 };
 
     private void Awake() {
         Instance = this;

@@ -13,8 +13,9 @@ public class ToolTipUI : MonoBehaviour {
     private CanvasGroup _canvasGroup;
 
     private float _smoothing = .5f;
-    private bool _isMoveing;
     private Vector2 _toolTipPositionOffset = new(14, -10);
+
+    public bool IsDisplay { get; set; }
 
     private void Awake() {
         Instance = this;
@@ -25,7 +26,7 @@ public class ToolTipUI : MonoBehaviour {
     }
 
     private void Update() {
-        if (_isMoveing) {
+        if (IsDisplay) {
             Vector2 position;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(_canvasRect, Input.mousePosition, null,
                 out position);
@@ -34,14 +35,14 @@ public class ToolTipUI : MonoBehaviour {
     }
 
     public void Show(string content) {
-        _isMoveing = true;
+        IsDisplay = true;
         _toolTipText.text = content;
         _contentText.text = content;
         DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 1, _smoothing);
     }
 
     public void Hide() {
-        _isMoveing = false;
+        IsDisplay = false;
         DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 0, _smoothing);
     }
 }

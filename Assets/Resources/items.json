@@ -251,5 +251,27 @@
     "buyPrice": 200,
     "sellPrice": 100,
     "sprite": "Sprites/Items/sugar"
+  },
+  {
+    "id": 20,
+    "name": "金锭",
+    "type": "Material",
+    "quality": "Artifact",
+    "description": "提炼后的金属",
+    "maxCapacity": 64,
+    "buyPrice": 5,
+    "sellPrice": 5,
+    "sprite": "Sprites/Items/gold_ingot"
+  },
+  {
+    "id": 21,
+    "name": "木棍",
+    "type": "Material",
+    "quality": "Artifact",
+    "description": "常用的材料",
+    "maxCapacity": 64,
+    "buyPrice": 5,
+    "sellPrice": 5,
+    "sprite": "Sprites/Items/stick"
   }
 ]
