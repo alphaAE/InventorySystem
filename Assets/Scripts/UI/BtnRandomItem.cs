@@ -50,12 +50,12 @@ public class BtnRandomItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void Show() {
         _canvasGroup.blocksRaycasts = true;
-        DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 1, .5f);
+        DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 1, .3f);
     }
 
     public void Hide() {
         _canvasGroup.blocksRaycasts = false;
-        DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 0, .5f);
+        DOTween.To(() => _canvasGroup.alpha, x => _canvasGroup.alpha = x, 0, .3f);
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
