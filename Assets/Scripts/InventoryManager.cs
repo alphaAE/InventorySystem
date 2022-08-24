@@ -8,6 +8,7 @@ public class InventoryManager : MonoBehaviour {
     public static InventoryManager Instance { get; private set; }
 
     private List<Item> _items = new();
+    private List<Formula> _formulas = new();
 
     private bool _inBackground;
 
@@ -28,6 +29,7 @@ public class InventoryManager : MonoBehaviour {
     private void Awake() {
         Instance = this;
         ParserItemJson();
+        ParserFormulaJson();
     }
 
     private void Update() {
@@ -44,12 +46,12 @@ public class InventoryManager : MonoBehaviour {
 
         foreach (var jToken in jArray) {
             var typeStr = jToken.Value<String>("type");
-            if (typeStr is null) continue;
+            if (typeStr == null) continue;
             Type type = Type.GetType(typeStr);
-            if (type is null) continue;
+            if (type == null) continue;
             Item item = (Item)jToken.ToObject(type);
 
-            if (item is not null) {
+            if (item != null) {
                 _items.Add(item);
             }
         }
@@ -62,5 +64,20 @@ public class InventoryManager : MonoBehaviour {
         }
 
         return null;
+    }
+
+    private void ParserFormulaJson() {
+        TextAsset formulaText = Resources.Load<TextAsset>("formula");
+        JArray jArray = JArray.Parse(formulaText.text);
+        foreach (var jToken in jArray) {
+            Formula formula = jToken.ToObject<Formula>();
+            if (formula != null) {
+                _formulas.Add(formula);
+            }
+        }
+    }
+
+    public List<Formula> GetFormulas() {
+        return _formulas;
     }
 }

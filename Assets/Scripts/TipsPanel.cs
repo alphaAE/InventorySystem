@@ -12,7 +12,6 @@ public class TipsPanel : MonoBehaviour, IPointerUpHandler {
     }
 
     public void OnPointerUp(PointerEventData eventData) {
-        Debug.Log(eventData);
         gameObject.SetActive(false);
     }
 }

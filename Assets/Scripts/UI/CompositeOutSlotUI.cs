@@ -7,6 +7,16 @@ using UnityEngine.UIElements;
 
 public class CompositeOutSlotUI : SlotUI {
     public override void OnPointerDown(PointerEventData eventData) {
+        // 快捷制作
+        if (Input.GetKey(KeyCode.LeftShift) && !PickedItem.Instance.HasItem && ItemUI) {
+            if (Knapsack.Instance.StoreItem(ItemUI.Item, ItemUI.Amount)) {
+                DestroyImmediate(ItemUI.gameObject);
+                Composite.Instance.CompositeItem();
+            }
+
+            return;
+        }
+
         // 左键 选中物品
         if (eventData.button == PointerEventData.InputButton.Left) {
             // PickedItem为空 && 当前格不为空 则选中
@@ -17,6 +27,7 @@ public class CompositeOutSlotUI : SlotUI {
                 ToolTipUI.Instance.Hide();
                 PickedItem.Instance.SetItem(ItemUI);
                 DestroyImmediate(ItemUI.gameObject);
+                Composite.Instance.CompositeItem();
             }
         }
     }

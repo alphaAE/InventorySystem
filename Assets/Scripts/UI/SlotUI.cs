@@ -34,6 +34,10 @@ public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         }
     }
 
+    public void StoreItem(int itemId, int amount = 1) {
+        StoreItem(InventoryManager.Instance.GetItemById(itemId), amount);
+    }
+
     /// <summary>
     /// 得到当前物品槽存放的物品类型
     /// </summary>

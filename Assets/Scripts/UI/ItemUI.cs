@@ -80,6 +80,23 @@ public class ItemUI : MonoBehaviour {
         }
     }
 
+    public void ReduceAmount(int amount = 1) {
+        Amount -= amount;
+        if (Amount <= 0) {
+            DestroyImmediate(gameObject);
+            return;
+        }
+
+        ScaleAnim();
+        // update ui
+        if (Amount > 1) {
+            AmountText.text = Amount.ToString();
+        }
+        else {
+            AmountText.text = "";
+        }
+    }
+
     public void Show() {
         gameObject.SetActive(true);
     }
